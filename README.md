@@ -1,2 +1,2 @@
 # express-learning
-My fileld to records life of learning Express
+My fileld to record life of learning Express
