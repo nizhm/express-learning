@@ -3,7 +3,18 @@ const mysql = require('mysql');
 const router = express.Router();
 
 /* GET users listing. */
-router.all('/', function(req, res, next) {
+router.use((req, res, next) => {
+  console.log('Time: ', Date.now())
+  next()
+})
+//router.get('/', (req, res) => {
+//  res.status(200).send({
+//    code: 200,
+//    data: 'Here is USER_INFO',
+//    msg: 'success'
+//  })
+//})
+router.get('/getList', function(req, res, next) {
   const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
