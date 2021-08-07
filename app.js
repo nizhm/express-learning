@@ -19,7 +19,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use((req, res, next) => {
+  const { authorization } = req.headers
+  if(!authorization) {
+    res.status(401).send({
+      code: 401,
+      data: null,
+      msg: '未授权用户'
+    })
+    return
+  }
+  next()
+});
+
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
