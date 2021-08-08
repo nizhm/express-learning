@@ -50,15 +50,45 @@ router.get('/getList', function(req, res, next) {
 });
 // 新增
 router.post('/addUser', (req, res) => {
-  res.status(200)
-  res.send({
+  const resJSON = {
     code: 200,
-    data: 'Add api',
+    data: null,
     msg: 'success'
-  })
+  }
+  const { name, password } = req.body
+  if(!name) {
+    resJSON.code = 201
+    resJSON.msg = '名字不能为空'
+  }else if(!password) {
+    resJSON.code = 202
+    resJSON.msg = '密码不能为空'
+  }else {
+    console.log(name, password)
+    const sql = `INSERT INTO USER_INFO(NAME, PASSWORD) VALUES(?, ?)`
+    const sqlData = [name, password]
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '123456',
+      port: '3306',
+      database: 'express-learning'
+    });
+    connection.connect();
+    connection.query(sql, sqlData, (err, result) => {
+      console.log(result)
+      if (err) {
+        resJSON.code = 500
+        resJSON.msg = err.sqlMessage
+      }
+      connection.destroy();
+    })
+  }
+  res.status(200)
+  res.send(resJSON)
 })
 // 修改
 router.put('/modifyUser', (req, res) => {
+  console.log('modify', req.body)
   res.status(200)
   res.send({
     code: 200,
