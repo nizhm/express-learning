@@ -8,7 +8,7 @@ router.use((req, res, next) => {
   next()
 })
 // 查询
-router.get('/getList', function(req, res, next) {
+router.get('/getList', function(req, res) {
   const { name, password } = req.query
   const nameCondition = name ? `WHERE NAME='${ name }'` : ''
   const passwordCondition = password ? `WHERE PASSWORD='${ password }'` : ''

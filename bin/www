@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('express-learning:server');
 var http = require('http');
-
+const { exec } = require('child_process');
 /**
  * Get port from environment and store in Express.
  */
@@ -87,4 +87,15 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  let url = 'http://loacalhost:' + addr.port;
+  try {
+    exec('clip').stdin.end(url);
+    url += '（copied to keyboard）';
+  } catch (e) {
+    console.error('Copy Error:', e.toString());
+  }
+  console.log(
+    `App run at: 
+    - Local: ${ url }`
+  );
 }
