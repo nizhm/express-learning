@@ -63,7 +63,6 @@ router.post('/addUser', (req, res) => {
     resJSON.code = 202
     resJSON.msg = '密码不能为空'
   }else {
-    console.log(name, password)
     const sql = `INSERT INTO USER_INFO(NAME, PASSWORD) VALUES(?, ?)`
     const sqlData = [name, password]
     const connection = mysql.createConnection({
@@ -88,22 +87,76 @@ router.post('/addUser', (req, res) => {
 })
 // 修改
 router.put('/modifyUser', (req, res) => {
-  console.log('modify', req.body)
-  res.status(200)
-  res.send({
+  const resJSON = {
     code: 200,
-    data: 'Modify api',
+    data: null,
     msg: 'success'
-  })
+  }
+  const { name, password, userId } = req.body
+  if(!userId) {
+    resJSON.code = 201
+    resJSON.msg = 'userId未传值'
+  }else if(!name) {
+    resJSON.code = 202
+    resJSON.msg = '名字不能为空'
+  }else if(!password) {
+    resJSON.code = 203
+    resJSON.msg = '密码不能为空'
+  }else {
+    const sql = `UPDATE USER_INFO SET NAME=?, PASSWORD=? WHERE USER_ID=?`
+    const sqlData = [name, password, +userId]
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '123456',
+      port: '3306',
+      database: 'express-learning'
+    });
+    connection.connect();
+    connection.query(sql, sqlData, (err, result) => {
+      console.log(result)
+      if (err) {
+        resJSON.code = 500
+        resJSON.msg = err.sqlMessage
+      }
+      connection.destroy();
+    })
+  }
+  res.status(200)
+  res.send(resJSON)
 })
 // 删除
 router.delete('/deleteUser', (req, res) => {
-  res.status(200)
-  res.send({
+  const resJSON = {
     code: 200,
-    data: 'Delete api',
+    data: null,
     msg: 'success'
-  })
+  }
+  const userId = req.body.userId
+  if(!userId) {
+    resJSON.code = 201
+    resJSON.msg = 'userId未传值'
+  }else {
+    const sql = `DELETE FROM USER_INFO WHERE USER_ID = ${ userId }`
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '123456',
+      port: '3306',
+      database: 'express-learning'
+    });
+    connection.connect();
+    connection.query(sql, (err, result) => {
+      console.log(result)
+      if (err) {
+        resJSON.code = 500
+        resJSON.msg = err.sqlMessage
+      }
+      connection.destroy();
+    })
+  }
+  res.status(200)
+  res.send(resJSON)
 })
 
 module.exports = router;
