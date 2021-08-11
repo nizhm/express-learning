@@ -10,8 +10,8 @@ router.use((req, res, next) => {
 // 查询
 router.get('/getList', function(req, res) {
   const { name, password } = req.query
-  const nameCondition = name ? `WHERE NAME='${ name }'` : ''
-  const passwordCondition = password ? `WHERE PASSWORD='${ password }'` : ''
+  const nameCondition = name ? `WHERE NAME LIKE '%${ name }%'` : ''
+  const passwordCondition = password ? `WHERE PASSWORD LIKE '%${ password }%'` : ''
   const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
