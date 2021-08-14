@@ -4,8 +4,7 @@ const router = express.Router();
 
 /* GET users listing. */
 router.use((req, res, next) => {
-  console.log('Time: ', (new Date()).toLocaleString())
-  next()
+  next();
 })
 // 查询
 router.get('/getList', function(req, res) {
