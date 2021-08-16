@@ -28,7 +28,6 @@ router.post('/image', (req, res) => {
     if(err) {
       console.log(err.toString())
     }
-    console.log(fields);
     const file = files[''];
     const oldPath = file.path;
     const extension = oldPath.slice(oldPath.lastIndexOf('.'));

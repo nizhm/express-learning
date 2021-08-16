@@ -12,7 +12,7 @@ const app = express();
 morgan.token('status-text', (req, res) => {
   return res.statusMessage
 });
-const customFormat = '[:date[web]] HTTP/:http-version :method [:url] :status :status-text --- :res[content-length] bytes - :response-time ms';
+const customFormat = '[:date[iso]] HTTP/:http-version :method [:url] :status :status-text --- :res[content-length] bytes - :response-time ms';
 const logFilePath = path.join('common', 'logs', 'all.log');
 const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 const morganOptions = {
