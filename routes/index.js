@@ -3,6 +3,7 @@ const express = require('express');
 // child router modules
 const usersRouter = require('./modules/users');
 const uploadRouter = require('./modules/upload');
+const authRouter = require('./modules/auth');
 
 // create router object
 const router = express.Router();
@@ -19,6 +20,7 @@ router.use((req, res, next) => {
 // match API
 router.use('/users', usersRouter);
 router.use('/upload', uploadRouter);
+router.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 router.use((req, res, next) => {
