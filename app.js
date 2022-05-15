@@ -4,8 +4,15 @@ const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const router = require('./routes/index');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+// parse application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({ extended: false }));
+//
+// // parse application/json
+// app.use(bodyParser.json());
 
 // log http request(一个实例打印到日志文件，一个实例打印到控制台)
 // use predefined formats: combined/common/dev/short/tiny

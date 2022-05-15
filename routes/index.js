@@ -10,13 +10,14 @@ const router = express.Router();
 
 // check authorization
 router.use((req, res, next) => {
-  const { authorization } = req.headers
-  if(!authorization) {
-    res.sendStatus(403)
-    return
-  }
+  // const { authorization } = req.headers
+  // if(!authorization) {
+  //   res.sendStatus(403)
+  //   return
+  // }
   next()
 });
+
 // match API
 router.use('/users', usersRouter);
 router.use('/upload', uploadRouter);

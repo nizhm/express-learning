@@ -4,6 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
 const log = require('../../utils/log');
+const { Buffer } = require('buffer');
+const { readFile } = require('fs');
 
 /* GET users listing. */
 router.use((req, res, next) => {
@@ -45,6 +47,49 @@ router.post('/image', (req, res) => {
   setTimeout(() => {
     res.status(200).json(resJSON)
   }, 1000)
+});
+
+// 上传图片
+router.post('/files', (req, res) => {
+  const resJSON = {
+    code: 200,
+    data: null,
+    msg: 'success'
+  }
+  const options = {
+    keepExtensions: true,
+    encoding: 'utf-8',
+    uploadDir: path.join('common', 'file', 'images'),
+    multiples: true
+  }
+  const form = formidable(options);
+  form.parse(req, (err, fields, files) => {
+    if(err) {
+      console.error(err)
+    }
+    console.log(fields);
+    console.log(files);
+    const file = files.file;
+    resJSON.data = {
+      name: file.name,
+      size: file.size,
+      type: file.type
+    };
+    console.log(resJSON);
+    try {
+      readFile(file.path, (err, buf) => {
+        if (err) {
+          log.error(err);
+          return
+        }
+
+        log.info(buf);
+      })
+    } catch(e) {
+      log.error(e);
+    }
+  });
+  res.status(200).json(resJSON)
 });
 
 // 删除图片
