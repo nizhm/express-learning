@@ -2,6 +2,7 @@
   "name": "express-learning",
   "version": "0.0.0",
   "private": true,
+  "type": "commonjs",
   "scripts": {
     "start": "set DEBUG=express-learning:* & node ./bin/www"
   },

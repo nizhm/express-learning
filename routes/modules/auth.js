@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const umcLoginURL = 'http://192.168.0.136:9001/#/users-manage'
-const state = '999999999'
+let state = Date.now();
+const timeout = 1000 * 60 * 5;
 
 /* GET users listing. */
 router.use((req, res, next) => {
@@ -10,10 +11,14 @@ router.use((req, res, next) => {
 // 登录
 router.post('/login', function(req, res) {
   const { userName, password, code } = req.body
+  state = Date.now();
   let url = `${umcLoginURL}?code=${code}&state=${state}`
+  setTimeout(() => {
+    state = Date.now();
+  }, timeout)
   res.status(200).send({
     code: '1',
-    data: { url },
+    data: { url, ...req.body },
     message: 'success'
   });
 });
