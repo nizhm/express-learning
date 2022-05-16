@@ -4,6 +4,7 @@ const express = require('express');
 const usersRouter = require('./modules/users');
 const uploadRouter = require('./modules/upload');
 const authRouter = require('./modules/auth');
+const xhrRouter = require('./modules/xhr');
 
 // create router object
 const router = express.Router();
@@ -15,6 +16,13 @@ router.use((req, res, next) => {
   //   res.sendStatus(403)
   //   return
   // }
+  const { authorization } = req.headers;
+  // 请求参数里获取authorization，解决form表单无法添加header的问题；
+  // const { authorization: queryAuth } = req.query;
+  // if(!(authorization || queryAuth)) {
+  //   res.sendStatus(403)
+  //   return
+  // }
   next()
 });
 
@@ -22,6 +30,7 @@ router.use((req, res, next) => {
 router.use('/users', usersRouter);
 router.use('/upload', uploadRouter);
 router.use('/auth', authRouter);
+router.use('/xhr', xhrRouter);
 
 // catch 404 and forward to error handler
 router.use((req, res, next) => {
