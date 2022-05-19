@@ -6,6 +6,7 @@ const formidable = require('formidable');
 const log = require('../../utils/log');
 const { Buffer } = require('buffer');
 const { readFile } = require('fs');
+const cors = require('cors');
 
 /* GET users listing. */
 router.use((req, res, next) => {
@@ -90,6 +91,23 @@ router.post('/files', (req, res) => {
     }
   });
   res.status(200).json(resJSON)
+});
+
+// 上传Blob
+router.post('/blob', cors(), (req, res) => {
+  const resJSON = {
+    code: 200,
+    data: null,
+    msg: 'success'
+  }
+  try {
+    const blob = new Buffer.from(req.body);
+    console.log('blob:');
+    console.log(blob);
+  } catch(e) {
+    console.log(e);
+  }
+  res.status(200).json(resJSON);
 });
 
 // 删除图片
