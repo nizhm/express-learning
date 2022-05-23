@@ -100,14 +100,25 @@ router.post('/blob', cors(), (req, res) => {
     data: null,
     msg: 'success'
   }
-  try {
-    const blob = new Buffer.from(req.body);
-    console.log('blob:');
-    console.log(blob);
-  } catch(e) {
-    console.log(e);
-  }
-  res.status(200).json(resJSON);
+  let data = Buffer.alloc(0);
+  req.on('data', chunk => {
+    data = Buffer.concat([data, chunk], data.length + chunk.length);
+  });
+  req.on('end', () => {
+    res.setHeader('Content-Type', 'application/octet-stream;charset=utf-8');
+    // res.setHeader('Content-Type', 'application/force-download');
+    // res.setHeader('Content-Disposition', 'attachment');
+    resJSON.data = data;
+    console.log(data);
+    res.status(200).end(data);
+  })
+  // try {
+  //   const blob = new Buffer.from(req.body);
+  //   console.log('blob:');
+  //   console.log(blob);
+  // } catch(e) {
+  //   console.log(e);
+  // }
 });
 
 // 删除图片
