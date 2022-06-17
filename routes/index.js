@@ -5,6 +5,7 @@ const usersRouter = require('./modules/users');
 const uploadRouter = require('./modules/upload');
 const authRouter = require('./modules/auth');
 const xhrRouter = require('./modules/xhr');
+const xssRouter = require('./modules/xss/index');
 
 // create router object
 const router = express.Router();
@@ -31,6 +32,7 @@ router.use('/users', usersRouter);
 router.use('/upload', uploadRouter);
 router.use('/auth', authRouter);
 router.use('/xhr', xhrRouter);
+router.use('/xss', xssRouter);
 
 // catch 404 and forward to error handler
 router.use((req, res, next) => {
